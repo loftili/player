@@ -19,6 +19,7 @@ AC_CHECK_HEADERS([portaudio.h],[],[AC_MSG_ERROR([Missing a required header, plea
 AC_CHECK_LIB([portaudio], [Pa_GetVersionText], [], [AC_MSG_ERROR([libmicrohttpd not installed])])
 AC_CHECK_LIB([mpg123], [mpg123_init], [], [AC_MSG_ERROR([libmicrohttpd not installed])])
 AC_CHECK_LIB([curl], [curl_global_init], [], [AC_MSG_ERROR([libcurl not installed])])
+AC_CHECK_LIB([ao], [ao_initialize], [], [AC_MSG_ERROR([libao error])])
 
 AC_MSG_CHECKING([for an available audio device through portaudio])
 AC_TRY_RUN([
