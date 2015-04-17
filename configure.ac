@@ -18,6 +18,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
   auto a = [] () { };
 ]])], [AC_MSG_RESULT([yes])], [AC_MSG_ERROR([could not use c++ 11])])
 
+AC_CHECK_LIB([ncurses], [initscr], [], [AC_MSG_ERROR([unable to find the curses library])])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
