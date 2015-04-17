@@ -36,9 +36,8 @@ class SimpleMessage {
     SimpleMessage();
     SimpleMessage(char* msg_data);
     ~SimpleMessage();
-    SimpleMessage(SimpleMessage& other);
     SimpleMessage(const SimpleMessage& other);
-    SimpleMessage& operator=(SimpleMessage& other);
+    SimpleMessage& operator=(const SimpleMessage& other);
     void Print();
     SimpleMessage::COMMAND Translate();
 
@@ -67,19 +66,27 @@ class SimpleMessage::SimpleMessageRef {
     int m_count;
 };
 
+SimpleMessage::SimpleMessage() {
+  printf("default constructor\n");
+}
+
 SimpleMessage::SimpleMessage(char* msg_data) {
   printf("creating new simple message from char pointer\n");
   m_ref = new SimpleMessage::SimpleMessageRef(msg_data);
   m_ref->m_count++;
 }
 
-SimpleMessage::SimpleMessage(SimpleMessage& other) { }
 SimpleMessage::SimpleMessage(const SimpleMessage& other) { 
   printf("creating new simple message from other simple message\n");
   m_ref = other.m_ref;
   m_ref->m_count++;
 }
-SimpleMessage& SimpleMessage::operator=(SimpleMessage& other) { return *this; }
+SimpleMessage& SimpleMessage::operator=(const SimpleMessage& other) { 
+  printf("assignment of one simplemessage to another\n");
+  m_ref = other.m_ref;
+  m_ref->m_count++;
+  return *this; 
+}
 
 SimpleMessage::~SimpleMessage() {
   printf("cleaning up a simple message\n");
