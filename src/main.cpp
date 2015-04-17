@@ -82,9 +82,9 @@ SimpleMessage::SimpleMessage(const SimpleMessage& other) {
   m_ref->m_count++;
 }
 SimpleMessage& SimpleMessage::operator=(const SimpleMessage& other) { 
-  printf("assignment of one simplemessage to another\n");
   m_ref = other.m_ref;
   m_ref->m_count++;
+  printf("assignment of one simplemessage to another, count now at [%d]\n", m_ref->m_count);
   return *this; 
 }
 
@@ -106,20 +106,24 @@ SimpleMessage::COMMAND SimpleMessage::Translate() {
 };
 
 template <template <class> class TT_Receiver, class TT_Message>
-class DispatchEngine : public TT_Receiver<TT_Message> {
+class T_DispatchEngine : public TT_Receiver<TT_Message> {
+  typedef typename TT_Message::COMMAND CMD;
+
+  public:
+    int Run() {
+      CMD c = CMD::START;
+      while(c != CMD::EXIT) {
+        SimpleMessage s;
+        s = this->Receive();
+        s.Print();
+        c = s.Translate();
+      }
+      return 0;
+    };
 };
 
 
 int main(int argc, char* argv[]) {
-  DispatchEngine<T_StdinReceiver, SimpleMessage> dispatch;
-
-  SimpleMessage::COMMAND c = SimpleMessage::START;
-
-  while(c != SimpleMessage::EXIT) {
-    SimpleMessage s = dispatch.Receive();
-    s.Print();
-    c = s.Translate();
-  }
-
-  return 0;
+  T_DispatchEngine<T_StdinReceiver, SimpleMessage> dispatch;
+  return dispatch.Run();
 }
