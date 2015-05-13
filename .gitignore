@@ -1,4 +1,5 @@
 Makefile.in
+.DS_Store
 Makefile
 COPYING
 INSTALL
